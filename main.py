@@ -14,12 +14,32 @@ def create_code():
         code[alphabet[i]] = backwards[i]
     #print(code)
 # Calculate the frequency of all letters in a piece of text
+def frequency(text):
+    text = list(text.lower())
 
+    freq = {}
+    for letter in alphabet:
+        freq[letter] = 0
+
+    total_letters = len(text)
+
+    for letter in text:
+        if letter in freq:
+            freq[letter]+=1
+
+    for letter in freq:
+        freq[letter] = freq[letter] / total_letters * 100
+
+    return freq        
 
 
 # Make frequency chart
+def make_chart(text, language):
+    chart = Bar(width = 800 ,height = 400, title="Frequency Analyser", x_labels = list(text.keys()))
+    chart.add("Target message", list(text.values()))
+    chart.add("Language", list(language.values()))
 
-
+    chart.render()
 
 # Encode/decode a piece of text — atbash is symetrical
 def atbash(text):
@@ -53,6 +73,14 @@ def menu():
         ""
         code=atbash(message)
         print(code)
+
+    elif choice == "f":
+        print("Analysing that message.....")
+        message=get_text("longer.txt")
+        message_freq=frequency(message)
+        #print(message_freq)
+        lang_freq = english
+        make_chart(message_freq, lang_freq)
 # Start up
 def main():
     create_code()
